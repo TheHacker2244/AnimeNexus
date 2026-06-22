@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Nexus - Tu tienda de figuras y merch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="main-header">
+        <div class="header-inner">
+            <!-- LOGO -->
+            <a href="#inicio" class="logo">
+                <img src="img/animenexuslogo.jpg" alt="Anime Nexus">
+                <span class="logo-text">ANIME <em>NEXUS</em></span>
+            </a>
+
+            <!-- NAV -->
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#inicio" class="nav-link">Inicio</a></li>
+
+                    <li class="has-dropdown">
+                        <a href="javascript:void(0)" class="nav-link" onclick="filtrarPor('figuras')">
+                            Figuras <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="mega-dropdown">
+                            <div class="mega-grid">
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('figuras','onepiece')">
+                                    <div class="mega-img"><img src="img/animenexusfigura7.webp" alt="One Piece"></div>
+                                    <span>One Piece</span>
+                                </a>
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('figuras','anime')">
+                                    <div class="mega-img"><img src="img/animenexusfigura3.webp" alt="Anime"></div>
+                                    <span>Anime</span>
+                                </a>
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('figuras','pokemon')">
+                                    <div class="mega-img"><img src="img/animenexusfigura5.webp" alt="Pokémon"></div>
+                                    <span>Pokémon</span>
+                                </a>
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('accesorios')">
+                                    <div class="mega-img"><img src="img/animenexusgorra.webp" alt="Accesorios"></div>
+                                    <span>Accesorios</span>
+                                </a>
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('juguetes')">
+                                    <div class="mega-img"><img src="img/animenexuslego.webp" alt="Juguetes"></div>
+                                    <span>Juguetes</span>
+                                </a>
+                                <a class="mega-item" href="javascript:void(0)" onclick="filtrarPor('todo')">
+                                    <div class="mega-img mega-img--all"><i class="fas fa-th"></i></div>
+                                    <span>Ver Todo</span>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="has-dropdown">
+                        <a href="javascript:void(0)" class="nav-link">
+                            Accesorios <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="mega-dropdown mega-dropdown--sm">
+                            <a href="javascript:void(0)" onclick="filtrarPor('accesorios')" class="dropdown-simple-link"><i class="fas fa-hat-cowboy"></i> Gorras</a>
+                            <a href="javascript:void(0)" onclick="filtrarPor('accesorios')" class="dropdown-simple-link"><i class="fas fa-bed"></i> Almohadas</a>
+                            <a href="javascript:void(0)" onclick="filtrarPor('accesorios')" class="dropdown-simple-link"><i class="fas fa-wallet"></i> Monederos</a>
+                        </div>
+                    </li>
+
+                    <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                    <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+                </ul>
+            </nav>
+
+            <!-- ACTIONS -->
+            <div class="header-actions">
+                <!-- BÚSQUEDA AGREGADA DE VUELTA -->
+                <div class="search-toggle" id="searchToggle">
+                    <i class="fas fa-search"></i>
+                </div>
+
+                <a href="login.html" class="btn-login">
+                    <i class="fas fa-user"></i> Ingresar
+                </a>
+
+                <div class="cart-wrapper">
+                    <a href="carrito.html" class="cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                    <div class="cart-preview" id="cart-preview">
+                        <p class="cart-preview-title">Tu Carrito</p>
+                        <ul id="cart-preview-list">
+                            <li class="empty-msg"><i class="fas fa-box-open"></i> El carrito está vacío</li>
+                        </ul>
+                        <a href="carrito.html" class="cart-preview-btn">Ver Carrito →</a>
+                    </div>
+                </div>
+
+                <!-- HAMBURGER -->
+                <button class="hamburger" id="hamburger" aria-label="Menú">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+
+        <!-- SEARCH BAR (colapsa/expande) -->
+        <div class="header-search" id="headerSearch">
+            <div class="header-search-inner">
+                <i class="fas fa-search"></i>
+                <input type="text" id="buscador" placeholder="Busca figuras, series, personajes..." onkeyup="buscarProducto()">
+                <button onclick="cerrarSearch()"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MOBILE NAV -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="#inicio" onclick="closeMobile()">Inicio</a></li>
+            <li><a href="javascript:void(0)" onclick="filtrarPor('figuras'); closeMobile()">Figuras</a></li>
+            <li><a href="javascript:void(0)" onclick="filtrarPor('accesorios'); closeMobile()">Accesorios</a></li>
+            <li><a href="javascript:void(0)" onclick="filtrarPor('juguetes'); closeMobile()">Juguetes</a></li>
+            <li><a href="#contacto" onclick="closeMobile()">Contacto</a></li>
+            <li><a href="#nosotros" onclick="closeMobile()">Nosotros</a></li>
+        </ul>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobile()"></div>
+
+    <!-- HERO / CARRUSEL -->
+    <section id="inicio" class="hero">
+        <div class="hero-slider" id="heroSlider">
+            <div class="hero-slide active">
+                <img src="img/animenexusbaner1.png" alt="Anime Nexus Banner 1">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <p class="hero-eyebrow">Nueva Colección</p>
+                        <h1>Figuras <em>de</em><br>Colección</h1>
+                        <p class="hero-sub">Las figuras más exclusivas del mundo anime, ahora en El Salvador.</p>
+                        <div class="hero-btns">
+                            <a href="#catalogo" class="btn-primary">Ver Catálogo</a>
+                            <a href="https://wa.me/50364437283" class="btn-ghost" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <img src="img/animenexusbaner2.png" alt="Anime Nexus Banner 2">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <p class="hero-eyebrow">Exclusivo</p>
+                        <h1>Merch & <em>Accesorios</em></h1>
+                        <p class="hero-sub">Gorras, almohadas, llaveros y mucho más para el verdadero fan.</p>
+                        <div class="hero-btns">
+                            <a href="#catalogo" class="btn-primary">Explorar</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-slide">
+                <img src="img/animenexuspago.jpg" alt="Métodos de Pago">
+                <div class="hero-overlay">
+                    <div class="hero-content">
+                        <p class="hero-eyebrow">Pago Fácil</p>
+                        <h1>Múltiples <em>Métodos</em><br>de Pago</h1>
+                        <p class="hero-sub">Paga como prefieras. Proceso rápido y seguro.</p>
+                        <div class="hero-btns">
+                            <a href="#contacto" class="btn-primary">Contáctanos</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Indicadores -->
+        <div class="hero-dots" id="heroDots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+        <!-- Flechas -->
+        <button class="hero-arrow hero-arrow--prev" onclick="prevSlide()"><i class="fas fa-chevron-left"></i></button>
+        <button class="hero-arrow hero-arrow--next" onclick="nextSlide()"><i class="fas fa-chevron-right"></i></button>
+    </section>
+
+    <!-- CATÁLOGO -->
+    <section id="catalogo" class="catalog-section">
+        <div class="section-header">
+            <h2>Nuestros Productos</h2>
+            <p>Colección completa disponible</p>
+        </div>
+
+        <!-- FILTROS -->
+        <div class="filter-bar">
+            <button class="filter-btn active" onclick="filtrarPor('todo'); setActive(this)">Todo</button>
+            <button class="filter-btn" onclick="filtrarPor('figuras'); setActive(this)">Figuras</button>
+            <button class="filter-btn" onclick="filtrarPor('accesorios'); setActive(this)">Accesorios</button>
+            <button class="filter-btn" onclick="filtrarPor('juguetes'); setActive(this)">Juguetes</button>
+        </div>
+
+        <div class="products-grid" id="grid-productos">
+            <!-- JS inserta aquí -->
+        </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section id="contacto" class="contact-section">
+        <div class="section-header">
+            <h2>Encuéntranos</h2>
+            <p>Visítanos o escríbenos</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-map">
+                <h3><i class="fas fa-map-marker-alt"></i> Nuestra Tienda</h3>
+                <p>Calle San Antonio Abad y 39 Av. Norte, Frente a Redondel Torogoz, San Salvador.</p>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3876.1199!2d-89.2087!3d13.6929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6327a6c2c1c8e7%3A0x8e3a0c0f2d1c7!2sRedondel%20El%20Torogoz%2C%20San%20Salvador!5e0!3m2!1ses!2ssv!4v1718900000000!5m2!1ses!2ssv" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <div class="contact-info" id="nosotros">
+                <h3><i class="fas fa-store"></i> Sobre Anime Nexus</h3>
+                <p>Somos la tienda líder de figuras y merch anime en El Salvador. Nos especializamos en coleccionables de la más alta calidad para verdaderos fanáticos del anime.</p>
+                <p class="tagline">"No es solo merch, es cultura."</p>
+                <div class="contact-links">
+                    <a href="https://wa.me/50364437283" class="contact-link contact-link--wa" target="_blank">
+                        <i class="fab fa-whatsapp"></i> +503 6443 7283
+                    </a>
+                    <a href="mailto:anime.nexus.sv@gmail.com" class="contact-link contact-link--mail">
+                        <i class="fas fa-envelope"></i> anime.nexus.sv@gmail.com
+                    </a>
+                    <a href="https://www.instagram.com/anime.nexus.sv" class="contact-link contact-link--ig" target="_blank">
+                        <i class="fab fa-instagram"></i> anime.nexus.sv
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="img/animenexuslogo.jpg" alt="Anime Nexus Logo">
+                <p>Descubre el paraíso del Anime en nuestra tienda.</p>
+                <p class="footer-slogan">"No es solo merch, es cultura."</p>
+                <div class="social-row">
+                    <a href="https://www.instagram.com/anime.nexus.sv" class="ig" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@anime.nexus.sv" class="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/animenexus.sv" class="fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/50364437283" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navegación</h4>
+                <ul>
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#catalogo">Catálogo</a></li>
+                    <li><a href="#nosotros">Sobre Nosotros</a></li>
+                    <li><a href="#contacto">Contáctanos</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Categorías</h4>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="filtrarPor('figuras')">Figuras Anime</a></li>
+                    <li><a href="javascript:void(0)" onclick="filtrarPor('figuras','onepiece')">One Piece</a></li>
+                    <li><a href="javascript:void(0)" onclick="filtrarPor('figuras','pokemon')">Pokémon</a></li>
+                    <li><a href="javascript:void(0)" onclick="filtrarPor('accesorios')">Accesorios</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contacto</h4>
+                <p><i class="fas fa-phone"></i> +503 6443 7283</p>
+                <p><i class="fas fa-map-marker-alt"></i> Frente a Redondel Torogoz, San Salvador</p>
+                <p><i class="fas fa-envelope"></i> anime.nexus.sv@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Anime Nexus. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/50364437283" class="wa-float" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- BACK TO TOP -->
+    <button class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="script.js"></script>
+</body>
+</html>

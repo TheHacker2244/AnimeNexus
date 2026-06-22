@@ -1,0 +1,54 @@
+/* =============================================
+   ANIME NEXUS — RESPONSIVE.CSS
+   ============================================= */
+
+/* Tablets & laptops pequeños */
+@media (max-width: 1100px) {
+    .footer-inner { grid-template-columns: 1fr 1fr; gap: 30px; }
+}
+
+/* Tablets y móviles */
+@media (max-width: 900px) {
+    .main-nav { display: none; }
+    .hamburger { display: flex; flex-direction: column; gap: 5px; padding: 4px; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: var(--white); border-radius: 2px; transition: 0.3s ease; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px,5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px,-5px); }
+    
+    .contact-grid { grid-template-columns: 1fr; }
+    .hero-overlay { padding: 0 30px; }
+
+    /* Header Search en móvil */
+    .header-search.open { max-height: 70px; border-top-color: rgba(255,255,255,0.06); }
+    .header-search-inner { max-width: 100%; margin: 0 auto; padding: 10px 20px; display: flex; align-items: center; gap: 12px; }
+    .header-search-inner input { flex: 1; background: none; border: none; outline: none; color: var(--white); font-size: 15px; font-family: 'Poppins', sans-serif; }
+    .header-search-inner input::placeholder { color: #a0a0b0; }
+    .header-search-inner button { color: #a0a0b0; font-size: 16px; transition: 0.3s ease; }
+
+    /* Mobile Overlay & Menu */
+    .mobile-nav { position: fixed; top: 70px; left: -280px; width: 280px; height: calc(100vh - 70px); background: #1a1a1a; border-right: 1px solid rgba(255,255,255,0.06); z-index: 999; transition: left 0.3s ease; padding: 20px; overflow-y: auto; }
+    .mobile-nav.open { left: 0; }
+    .mobile-nav ul { display: flex; flex-direction: column; gap: 4px; }
+    .mobile-nav a { display: block; padding: 12px 16px; border-radius: 8px; font-weight: 500; color: #a0a0b0; transition: 0.3s ease; }
+    .mobile-nav a:hover { background: rgba(230,57,70,0.12); color: var(--brand-red); }
+    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998; }
+    .mobile-overlay.open { display: block; }
+}
+
+/* Móviles pequeños (celulares) */
+@media (max-width: 600px) {
+    .header-inner { padding: 0 16px; gap: 12px; }
+    .logo-text { display: none; }
+    .btn-login { display: none; }
+    .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .footer-inner { grid-template-columns: 1fr; }
+    .hero-overlay { padding: 0 20px; }
+    .hero-content h1 { font-size: 2.2rem; }
+    .hero-sub { font-size: 13px; }
+    .contact-map iframe { height: 180px; }
+
+    /* Botón agregar al carrito un poco más pequeño en móvil */
+    .btn-add-cart { font-size: 12px; padding: 8px; }
+    .card-price { font-size: 1.2rem; }
+}
