@@ -107,3 +107,13 @@ body.has-bg-image .input-group label { color: #fff; }
 body.has-bg-image .input-group input { background: rgba(255,255,255,0.9); }
 body.has-bg-image #toggle-text { color: #fff; }
 body.has-bg-image #toggle-text a { color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.8); }
+
+/* --- RESPONSIVE DEL LOGIN --- */
+@media (max-width: 600px) {
+    .login-box { width: 90%; padding: 25px; }
+    .back-arrow { top: 15px; left: 15px; width: 36px; height: 36px; }
+    .logo-login { width: 65px; }
+    h2 { font-size: 1.8rem; }
+    .input-group input { font-size: 14px; padding: 8px 12px; }
+    #submitBtn { font-size: 14px; padding: 10px; }
+}

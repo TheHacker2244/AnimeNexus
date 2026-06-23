@@ -10,13 +10,12 @@ const firebaseConfig = {
   appId: "1:893164863905:web:b4f880ffb187ef32b84be0",
   measurementId: "G-HGLLD4Y095"
 };
-// Inicializar Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
 // =============================================
-// BASE DE DATOS DE PRODUCTOS
+// BASE DE DATOS DE PRODUCTOS (Igual que antes)
 // =============================================
 const productos = [
     { id: 1, nombre: "Figura Miku Sirena", categoria: "figuras", subcategoria: "anime", precio: 35.00, img: "img/animenexusfigura1.webp" },
@@ -51,9 +50,13 @@ let subcategoriaActiva = null;
 
 window.onload = function() {
     mostrarProductos(productos);
-    
     document.getElementById('searchToggle').addEventListener('click', function() {
         document.getElementById('headerSearch').classList.toggle('open');
+    });
+    document.getElementById('hamburger').addEventListener('click', function() {
+        document.getElementById('mobileNav').classList.toggle('open');
+        document.getElementById('mobileOverlay').classList.toggle('open');
+        this.classList.toggle('open');
     });
 };
 
@@ -97,111 +100,110 @@ function filtrarPor(categoria, subcategoria) {
 }
 
 // =============================================
-// AGREGAR AL CARRITO CON FIREBASE
+// AGREGAR AL CARRITO (MODO INVITADO + MODO USUARIO)
 // =============================================
 async function agregarAlCarrito(id, nombre, precio, img, btnElement) {
     const user = auth.currentUser;
-    if (!user) {
-        alert("Debes iniciar sesión para agregar productos al carrito.");
-        window.location.href = "login.html";
-        return;
-    }
-
+    
     if (btnElement) {
         btnElement.innerText = '⏳ Agregando...';
         btnElement.style.pointerEvents = 'none';
         btnElement.style.backgroundColor = '#666';
     }
 
-    try {
-        const cartRef = db.collection('users').doc(user.uid).collection('cart').doc(id.toString());
-        const docSnap = await cartRef.get();
-
-        if (docSnap.exists) {
-            const data = docSnap.data();
-            await cartRef.update({ cantidad: data.cantidad + 1 });
+    if (!user) {
+        let carritoLocal = JSON.parse(localStorage.getItem('animeNexus_Guest')) || [];
+        const itemExist = carritoLocal.find(p => p.id === id);
+        if (itemExist) {
+            itemExist.cantidad += 1;
         } else {
-            await cartRef.set({
-                id: id,
-                nombre: nombre,
-                precio: precio,
-                img: img,
-                cantidad: 1,
-                descripcion: `¡Excelente pieza de ${nombre} para tu colección!`
-            });
+            carritoLocal.push({ id, nombre, precio, img, cantidad: 1, descripcion: `¡Excelente pieza de ${nombre}!` });
         }
-
-        if (btnElement) {
-            btnElement.innerText = '✔ Agregado';
-            btnElement.style.backgroundColor = '#4caf50';
-            setTimeout(() => {
-                btnElement.innerText = 'Agregar al carrito';
-                btnElement.style.backgroundColor = '#e63946';
-                btnElement.style.pointerEvents = 'auto';
-            }, 2000);
+        localStorage.setItem('animeNexus_Guest', JSON.stringify(carritoLocal));
+    } else {
+        try {
+            const cartRef = db.collection('users').doc(user.uid).collection('cart').doc(id.toString());
+            const docSnap = await cartRef.get();
+            if (docSnap.exists) {
+                const data = docSnap.data();
+                await cartRef.update({ cantidad: data.cantidad + 1 });
+            } else {
+                await cartRef.set({ id, nombre, precio, img, cantidad: 1, descripcion: `¡Excelente pieza de ${nombre}!` });
+            }
+        } catch (error) {
+            console.error("Error al agregar en Firebase:", error);
         }
-        actualizarContadorCarrito();
-        actualizarVistaPreviaCarrito(); // Actualiza el desplegable en tiempo real
+    }
 
-    } catch (error) {
-        console.error("Error al agregar al carrito:", error);
-        alert("Ocurrió un error al agregar el producto.");
-        if (btnElement) {
+    if (btnElement) {
+        btnElement.innerText = '✔ Agregado';
+        btnElement.style.backgroundColor = '#4caf50';
+        setTimeout(() => {
             btnElement.innerText = 'Agregar al carrito';
             btnElement.style.backgroundColor = '#e63946';
             btnElement.style.pointerEvents = 'auto';
-        }
+        }, 2000);
     }
+    actualizarContadorCarrito();
+    actualizarVistaPreviaCarrito();
 }
 
 // =============================================
-// ACTUALIZAR EL CONTADOR ROJO DEL CARRITO
+// ACTUALIZAR CONTADOR Y VISTA PREVIA
 // =============================================
 async function actualizarContadorCarrito() {
     const user = auth.currentUser;
-    if (!user) return;
-    try {
+    let totalItems = 0;
+    if (user) {
         const snapshot = await db.collection('users').doc(user.uid).collection('cart').get();
-        let totalItems = 0;
         snapshot.forEach(doc => { totalItems += doc.data().cantidad; });
-        const contador = document.getElementById('cart-count');
-        if (contador) contador.innerText = totalItems;
-    } catch (e) { console.log("Error calculando contador", e); }
+    } else {
+        const carritoLocal = JSON.parse(localStorage.getItem('animeNexus_Guest')) || [];
+        totalItems = carritoLocal.reduce((acc, item) => acc + item.cantidad, 0);
+    }
+    const contador = document.getElementById('cart-count');
+    if (contador) contador.innerText = totalItems;
 }
 
-// =============================================
-// ACTUALIZAR LA VISTA PREVIA (EL DESPLEGABLE AL PASAR EL MOUSE)
-// =============================================
 async function actualizarVistaPreviaCarrito() {
     const user = auth.currentUser;
     const previewList = document.getElementById('cart-preview-list');
     if (!user) {
-        previewList.innerHTML = '<li class="empty-msg"><i class="fas fa-user-lock"></i> Inicia sesión</li>';
-        return;
-    }
-    try {
-        const snapshot = await db.collection('users').doc(user.uid).collection('cart').get();
+        const carritoLocal = JSON.parse(localStorage.getItem('animeNexus_Guest')) || [];
         previewList.innerHTML = '';
-        if (snapshot.empty) {
+        if (carritoLocal.length === 0) {
             previewList.innerHTML = '<li class="empty-msg"><i class="fas fa-box-open"></i> El carrito está vacío</li>';
             return;
         }
-        let count = 0;
-        snapshot.forEach(doc => {
-            if (count < 3) { // Mostramos solo los primeros 3 productos
-                const item = doc.data();
-                previewList.innerHTML += `<li><span>${item.nombre}</span> <span>x${item.cantidad}</span></li>`;
-                count++;
-            }
+        carritoLocal.slice(0, 3).forEach(item => {
+            previewList.innerHTML += `<li><span>${item.nombre}</span> <span>x${item.cantidad}</span></li>`;
         });
-        if (snapshot.size > 3) {
-            previewList.innerHTML += `<li style="border:none; justify-content:center; color:#e63946; font-weight:bold;">y ${snapshot.size - 3} más...</li>`;
+        if (carritoLocal.length > 3) {
+            previewList.innerHTML += `<li style="border:none; justify-content:center; color:#e63946; font-weight:bold;">y ${carritoLocal.length - 3} más...</li>`;
         }
-    } catch (e) { console.error("Error en vista previa", e); }
+        return;
+    }
+    const snapshot = await db.collection('users').doc(user.uid).collection('cart').get();
+    previewList.innerHTML = '';
+    if (snapshot.empty) {
+        previewList.innerHTML = '<li class="empty-msg"><i class="fas fa-box-open"></i> El carrito está vacío</li>';
+        return;
+    }
+    let count = 0;
+    snapshot.forEach(doc => {
+        if (count < 3) {
+            const item = doc.data();
+            previewList.innerHTML += `<li><span>${item.nombre}</span> <span>x${item.cantidad}</span></li>`;
+            count++;
+        }
+    });
+    if (snapshot.size > 3) {
+        previewList.innerHTML += `<li style="border:none; justify-content:center; color:#e63946; font-weight:bold;">y ${snapshot.size - 3} más...</li>`;
+    }
 }
 
 // =============================================
-// CARRUSEL Y OTRAS FUNCIONES
+// CARRUSEL Y FUNCIONES BÁSICAS
 // =============================================
 function cerrarSearch() { document.getElementById('headerSearch').classList.remove('open'); }
 function closeMobile() {
@@ -222,7 +224,6 @@ function nextSlide() { currentSlide = (currentSlide + 1) % slides.length; showSl
 function prevSlide() { currentSlide = (currentSlide - 1 + slides.length) % slides.length; showSlide(currentSlide); }
 setInterval(nextSlide, 3500);
 
-// Cada vez que el usuario cambia (inicia sesión o cierra sesión), actualizamos todo
 auth.onAuthStateChanged(() => {
     actualizarContadorCarrito();
     actualizarVistaPreviaCarrito();

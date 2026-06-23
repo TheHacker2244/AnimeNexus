@@ -26,29 +26,37 @@
     .header-search-inner input::placeholder { color: #a0a0b0; }
     .header-search-inner button { color: #a0a0b0; font-size: 16px; transition: 0.3s ease; }
 
-    /* Mobile Overlay & Menu */
-    .mobile-nav { position: fixed; top: 70px; left: -280px; width: 280px; height: calc(100vh - 70px); background: #1a1a1a; border-right: 1px solid rgba(255,255,255,0.06); z-index: 999; transition: left 0.3s ease; padding: 20px; overflow-y: auto; }
-    .mobile-nav.open { left: 0; }
-    .mobile-nav ul { display: flex; flex-direction: column; gap: 4px; }
-    .mobile-nav a { display: block; padding: 12px 16px; border-radius: 8px; font-weight: 500; color: #a0a0b0; transition: 0.3s ease; }
-    .mobile-nav a:hover { background: rgba(230,57,70,0.12); color: var(--brand-red); }
-    .mobile-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 998; }
-    .mobile-overlay.open { display: block; }
+    /* Mobile Nav Activado */
+    .mobile-nav { display: block; }
 }
 
 /* Móviles pequeños (celulares) */
 @media (max-width: 600px) {
-    .header-inner { padding: 0 16px; gap: 12px; }
+    .header-inner { padding: 0 10px; }
+    .logo img { height: 32px; width: 32px; }
     .logo-text { display: none; }
     .btn-login { display: none; }
+    .search-toggle { width: 28px; height: 28px; font-size: 12px; }
+    .cart-btn { width: 32px; height: 32px; font-size: 14px; }
+    .hamburger { gap: 4px; }
+    .hamburger span { width: 18px; height: 2px; }
+    
     .products-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
     .footer-inner { grid-template-columns: 1fr; }
     .hero-overlay { padding: 0 20px; }
     .hero-content h1 { font-size: 2.2rem; }
     .hero-sub { font-size: 13px; }
     .contact-map iframe { height: 180px; }
-
-    /* Botón agregar al carrito un poco más pequeño en móvil */
     .btn-add-cart { font-size: 12px; padding: 8px; }
     .card-price { font-size: 1.2rem; }
+}
+
+/* --- RESPONSIVE DEL LOGIN Y CARRITO --- */
+@media (max-width: 600px) {
+    .login-box { width: 90%; padding: 25px; }
+    .back-arrow { top: 15px; left: 15px; width: 36px; height: 36px; }
+    .logo-login { width: 65px; }
+    h2 { font-size: 1.8rem; }
+    .input-group input { font-size: 14px; padding: 8px 12px; }
+    #submitBtn { font-size: 14px; padding: 10px; }
 }

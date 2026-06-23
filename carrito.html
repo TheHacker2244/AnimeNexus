@@ -7,11 +7,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
     <link rel="stylesheet" href="carrito.css">
 </head>
 <body>
 
-    <!-- Header idéntico al index.html -->
+    <!-- Header -->
     <header id="main-header">
         <div class="header-inner">
             <a href="index.html" class="logo">
@@ -33,10 +34,22 @@
                         <span class="cart-count" id="cart-count">0</span>
                     </a>
                 </div>
+                <!-- HAMBURGER -->
                 <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
             </div>
         </div>
     </header>
+
+    <!-- ¡AÑADIDO! Menú Móvil para que funcione el carrito en celular -->
+    <div class="mobile-nav" id="mobileNav">
+        <ul>
+            <li><a href="index.html" onclick="closeMobile()">Inicio</a></li>
+            <li><a href="index.html#catalogo" onclick="closeMobile()">Catálogo</a></li>
+            <li><a href="index.html#contacto" onclick="closeMobile()">Contacto</a></li>
+            <li><a href="login.html" onclick="closeMobile()">Cuenta</a></li>
+        </ul>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobile()"></div>
 
     <!-- Contenido del carrito -->
     <div class="carrito-container">
@@ -59,7 +72,7 @@
         </div>
     </div>
 
-    <!-- Footer idéntico al index.html -->
+    <!-- Footer -->
     <footer class="site-footer">
         <div class="footer-inner">
             <div class="footer-brand">
