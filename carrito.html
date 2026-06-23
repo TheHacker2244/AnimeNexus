@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito - Anime Nexus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="carrito.css">
+</head>
+<body>
+
+    <!-- Header idéntico al index.html -->
+    <header id="main-header">
+        <div class="header-inner">
+            <a href="index.html" class="logo">
+                <img src="img/animenexuslogo.jpg" alt="Anime Nexus">
+                <span class="logo-text">ANIME <em>NEXUS</em></span>
+            </a>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html" class="nav-link">Inicio</a></li>
+                    <li><a href="index.html#catalogo" class="nav-link">Catálogo</a></li>
+                    <li><a href="index.html#contacto" class="nav-link">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <a href="login.html" class="btn-login"><i class="fas fa-user"></i> Cuenta</a>
+                <div class="cart-wrapper">
+                    <a href="carrito.html" class="cart-btn">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span class="cart-count" id="cart-count">0</span>
+                    </a>
+                </div>
+                <button class="hamburger" id="hamburger" aria-label="Menú"><span></span><span></span><span></span></button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido del carrito -->
+    <div class="carrito-container">
+        <h1>🛒 Mi Carrito de Compras</h1>
+        
+        <div id="carrito-vacio" style="display: none;">
+            <p>Tu carrito está vacío.</p>
+            <a href="index.html" class="btn-seguir-comprando">Seguir comprando</a>
+        </div>
+
+        <div id="carrito-contenido">
+            <div id="lista-productos-carrito"></div>
+
+            <div class="carrito-resumen">
+                <h3>Resumen del pedido</h3>
+                <p>Total: <span id="total-carrito">$0.00</span></p>
+                <button id="btn-finalizar-compra" class="btn-pagar">Finalizar compra por WhatsApp</button>
+                <a href="index.html" class="btn-seguir-comprando">Seguir comprando</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer idéntico al index.html -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <img src="img/animenexuslogo.jpg" alt="Logo Anime Nexus">
+                <p>Descubre el paraíso del Anime.</p>
+                <p class="footer-slogan">"No es solo merch, es cultura."</p>
+                <div class="social-row">
+                    <a href="https://www.instagram.com/anime.nexus.sv" class="ig" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@anime.nexus.sv" class="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
+                    <a href="https://www.facebook.com/animenexus.sv" class="fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/50364437283" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="footer-links">
+                <h4>Navegación</h4>
+                <ul><li><a href="index.html">Inicio</a></li><li><a href="index.html#catalogo">Catálogo</a></li></ul>
+            </div>
+            <div class="footer-contact">
+                <h4>Contacto</h4>
+                <p><i class="fas fa-phone"></i> +503 6443 7283</p>
+                <p><i class="fas fa-envelope"></i> anime.nexus.sv@gmail.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Anime Nexus. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- FIREBASE SCRIPTS -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="carrito.js"></script>
+</body>
+</html>

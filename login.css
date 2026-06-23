@@ -1,0 +1,109 @@
+/* --- ESTILO BASE --- */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #111111; /* Fondo oscuro por defecto */
+    transition: all 0.3s ease;
+}
+
+.back-arrow {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(255,255,255,0.1);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    transition: 0.3s ease;
+}
+.back-arrow:hover {
+    background: #e63946;
+    border-color: #e63946;
+    transform: scale(1.05);
+}
+
+.login-box {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    width: 380px;
+    text-align: center;
+    border: none;
+}
+.logo-login { width: 80px; border-radius: 12px; margin-bottom: 10px; }
+h2 { font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 10px; }
+.subtitulo { color: #6b6b7b; font-size: 14px; margin-top: -8px; margin-bottom: 20px; }
+
+.input-group { margin: 15px 0; text-align: left; }
+.input-group label { font-weight: 600; font-size: 13px; color: #1a1a1a; }
+.input-group input {
+    width: 100%;
+    padding: 10px 14px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
+    transition: 0.3s;
+}
+.input-group input:focus {
+    outline: none;
+    border-color: #e63946;
+    box-shadow: 0 0 0 4px rgba(230,57,70,0.1);
+}
+
+#submitBtn {
+    width: 100%;
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 10px;
+}
+#submitBtn:hover { background: #b71c1c; transform: translateY(-2px); }
+
+#toggle-text a { color: #e63946; font-weight: 600; text-decoration: none; }
+#toggle-text a:hover { text-decoration: underline; }
+
+.mensaje-alerta {
+    margin-top: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #e63946;
+}
+
+/* --- ESTILO CRISTAL ACTIVADO --- */
+body.has-bg-image {
+    background-image: url('img/fondo-login.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+body.has-bg-image .login-box {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+}
+body.has-bg-image h2, body.has-bg-image .subtitulo { color: #fff; }
+body.has-bg-image .input-group label { color: #fff; }
+body.has-bg-image .input-group input { background: rgba(255,255,255,0.9); }
+body.has-bg-image #toggle-text { color: #fff; }
+body.has-bg-image #toggle-text a { color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.8); }
