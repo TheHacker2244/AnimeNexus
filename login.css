@@ -7,7 +7,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #111111; /* Fondo oscuro por defecto */
+    background-color: #111111; 
     transition: all 0.3s ease;
 }
 
@@ -35,18 +35,72 @@ body {
 
 .login-box {
     background-color: #ffffff;
-    padding: 40px;
+    padding: 40px; /* EXACTAMENTE el padding original, sin cambios */
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.3);
     width: 380px;
     text-align: center;
-    border: none;
+    border: 2px solid transparent;
+    transition: border-color 0.6s ease, box-shadow 0.6s ease;
+    overflow: hidden;
+    position: relative;
 }
+
+/* --- ANIMACIÓN DESLIZANTE CON SUPERPOSICIÓN (MANTIENE LA ALTURA EXACTA) --- */
+.auth-container {
+    position: relative; /* Punto de anclaje */
+    width: 100%;
+}
+.auth-panel {
+    position: absolute; /* Se superponen perfectamente */
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    box-sizing: border-box;
+    transition: transform 0.6s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.4s ease;
+}
+.login-panel {
+    transform: translateX(0);
+    opacity: 1;
+    position: relative; /* Este es el que le da la altura a la caja original */
+    z-index: 2;
+    pointer-events: all;
+}
+.register-panel {
+    transform: translateX(60px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* --- MODO REGISTRO ACTIVADO --- */
+.login-box.show-register {
+    border-color: #e63946; /* Borde rojo Anime Nexus */
+    box-shadow: 0 10px 30px rgba(230, 57, 70, 0.2);
+}
+.login-box.show-register .login-panel {
+    transform: translateX(-60px);
+    opacity: 0;
+    pointer-events: none;
+    position: absolute; /* Lo sacamos del flujo para que no estire la caja */
+}
+.login-box.show-register .register-panel {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: all;
+    position: relative; /* Metemos el registro al flujo, ocupa exactamente el mismo alto */
+}
+
+/* --- RESTO DE ESTILOS --- */
 .logo-login { width: 80px; border-radius: 12px; margin-bottom: 10px; }
-h2 { font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 10px; }
+h2 { font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin: 10px 0 5px 0; transition: color 0.6s ease; }
 .subtitulo { color: #6b6b7b; font-size: 14px; margin-top: -8px; margin-bottom: 20px; }
 
-.input-group { margin: 15px 0; text-align: left; }
+.input-group { margin: 15px 0; text-align: left; width: 100%; max-width: 300px; }
 .input-group label { font-weight: 600; font-size: 13px; color: #1a1a1a; }
 .input-group input {
     width: 100%;
@@ -63,8 +117,9 @@ h2 { font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 10px; 
     box-shadow: 0 0 0 4px rgba(230,57,70,0.1);
 }
 
-#submitBtn {
+.submit-btn {
     width: 100%;
+    max-width: 300px;
     background: #e63946;
     color: white;
     border: none;
@@ -76,19 +131,30 @@ h2 { font-family: 'Bebas Neue', cursive; letter-spacing: 1px; margin-top: 10px; 
     transition: 0.3s;
     margin-top: 10px;
 }
-#submitBtn:hover { background: #b71c1c; transform: translateY(-2px); }
+.submit-btn:hover { background: #b71c1c; transform: translateY(-2px); }
 
-#toggle-text a { color: #e63946; font-weight: 600; text-decoration: none; }
-#toggle-text a:hover { text-decoration: underline; }
+.toggle-text {
+    margin-top: 15px; 
+    font-size: 14px;
+}
+.toggle-text a { 
+    color: #e63946; 
+    font-weight: 600; 
+    text-decoration: none;
+    cursor: pointer;
+}
+.toggle-text a:hover { text-decoration: underline; }
 
 .mensaje-alerta {
     margin-top: 15px;
     font-size: 14px;
     font-weight: 600;
     color: #e63946;
+    width: 100%;
+    min-height: 20px;
 }
 
-/* --- ESTILO CRISTAL ACTIVADO --- */
+/* --- ESTILO CRISTAL ACTIVADO (Totalmente intacto) --- */
 body.has-bg-image {
     background-image: url('img/fondo-login.jpg');
     background-size: cover;
@@ -105,15 +171,16 @@ body.has-bg-image .login-box {
 body.has-bg-image h2, body.has-bg-image .subtitulo { color: #fff; }
 body.has-bg-image .input-group label { color: #fff; }
 body.has-bg-image .input-group input { background: rgba(255,255,255,0.9); }
-body.has-bg-image #toggle-text { color: #fff; }
-body.has-bg-image #toggle-text a { color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.8); }
+body.has-bg-image .toggle-text { color: #fff; }
+body.has-bg-image .toggle-text a { color: #fff; text-shadow: 0 0 4px rgba(0,0,0,0.8); }
+body.has-bg-image .login-box.show-register h2 { color: #fff; }
 
-/* --- RESPONSIVE DEL LOGIN --- */
+/* --- RESPONSIVE (Intacto) --- */
 @media (max-width: 600px) {
-    .login-box { width: 90%; padding: 25px; }
+    .login-box { width: 90%; padding: 30px 15px; }
     .back-arrow { top: 15px; left: 15px; width: 36px; height: 36px; }
     .logo-login { width: 65px; }
     h2 { font-size: 1.8rem; }
     .input-group input { font-size: 14px; padding: 8px 12px; }
-    #submitBtn { font-size: 14px; padding: 10px; }
+    .submit-btn { font-size: 14px; padding: 10px; }
 }

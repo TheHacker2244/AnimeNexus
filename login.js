@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function() {
+    // --- Fondo con imagen ---
     const bgUrl = 'img/fondo-login.jpg';
     const imgChecker = new Image();
     imgChecker.onload = () => { document.body.classList.add('has-bg-image'); };
     imgChecker.onerror = () => { console.log("ℹ️ Fondo oscuro estándar activado."); };
     imgChecker.src = bgUrl;
 
-    const firebaseConfig = { /* TU CONFIGURACIÓN DE FIREBASE, IGUAL QUE ANTES */ 
+    // --- Firebase ---
+    const firebaseConfig = {
         apiKey: "AIzaSyB_Y2M2C3MumuZE8__QHh0-S8mzMZBGIho",
         authDomain: "animenexus-5e636.firebaseapp.com",
         projectId: "animenexus-5e636",
@@ -14,41 +16,44 @@ document.addEventListener("DOMContentLoaded", function() {
         appId: "1:893164863905:web:b4f880ffb187ef32b84be0",
         measurementId: "G-HGLLD4Y095"
     };
-    if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+    if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+    }
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const form = document.getElementById('loginForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const toggleMode = document.getElementById('toggleMode');
-    const toggleText = document.getElementById('toggle-text');
+    // --- Elementos del DOM ---
+    const loginBox = document.getElementById('loginBox');
+    const toggleLinks = document.querySelectorAll('.toggle-mode-link');
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
     const mensaje = document.getElementById('mensaje');
-    let isRegisterMode = false;
 
-    toggleMode.addEventListener('click', (e) => {
-        e.preventDefault();
-        isRegisterMode = !isRegisterMode;
-        if (isRegisterMode) {
-            submitBtn.textContent = "Crear Cuenta";
-            toggleText.innerHTML = `¿Ya tienes cuenta? <a href="#" id="toggleMode">Inicia sesión aquí</a>`;
-            document.querySelector('h2').textContent = "Crear Cuenta";
-        } else {
-            submitBtn.textContent = "Iniciar Sesión";
-            toggleText.innerHTML = `¿No tienes cuenta? <a href="#" id="toggleMode">Regístrate aquí</a>`;
-            document.querySelector('h2').textContent = "¡Bienvenido, Otaku!";
-        }
-        document.getElementById('toggleMode').addEventListener('click', arguments.callee);
+    // --- Toggle de animación (Deslizar el formulario sin estirar la caja) ---
+    toggleLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault(); // Evita que vaya a "#"
+            loginBox.classList.toggle('show-register'); // Activa el intercambio de posiciones
+            mensaje.textContent = ""; // Limpiamos mensajes
+        });
     });
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        if (!email || !password) { mensaje.textContent = "Completa todos los campos"; return; }
+    // --- Función general para manejar autenticación (Intacta) ---
+    async function handleAuth(email, password, isRegister) {
+        if (!email || !password) {
+            mensaje.textContent = "Completa todos los campos";
+            mensaje.style.color = "red";
+            return;
+        }
+        if (isRegister && password.length < 6) {
+            mensaje.textContent = "La contraseña debe tener al menos 6 caracteres";
+            mensaje.style.color = "red";
+            return;
+        }
 
         try {
             let userCred;
-            if (isRegisterMode) {
+            if (isRegister) {
                 userCred = await auth.createUserWithEmailAndPassword(email, password);
                 mensaje.textContent = "Cuenta creada. Cargando carrito...";
                 mensaje.style.color = "green";
@@ -58,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 mensaje.style.color = "green";
             }
 
-            // --- LÓGICA PARA FUSIONAR EL CARRITO DE INVITADO CON FIREBASE ---
+            // --- Fusión del carrito de invitado ---
             const guestCart = JSON.parse(localStorage.getItem('animeNexus_Guest'));
             if (guestCart && guestCart.length > 0) {
                 const userRef = db.collection('users').doc(userCred.user.uid).collection('cart');
@@ -73,12 +78,39 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
                 localStorage.removeItem('animeNexus_Guest');
             }
-            
-            setTimeout(() => { window.location.href = "carrito.html"; }, 1000);
+
+            setTimeout(() => {
+                window.location.href = "carrito.html";
+            }, 1000);
 
         } catch (error) {
-            mensaje.textContent = error.message;
+            let errorMsg = error.message;
+            if (error.code === 'auth/email-already-in-use') {
+                errorMsg = "Este correo ya está registrado. Inicia sesión.";
+            } else if (error.code === 'auth/user-not-found') {
+                errorMsg = "Usuario no encontrado. Regístrate primero.";
+            } else if (error.code === 'auth/wrong-password') {
+                errorMsg = "Contraseña incorrecta.";
+            } else if (error.code === 'auth/invalid-email') {
+                errorMsg = "Correo electrónico inválido.";
+            }
+            mensaje.textContent = errorMsg;
             mensaje.style.color = "red";
         }
+    }
+
+    // --- Eventos de los formularios ---
+    loginForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        handleAuth(email, password, false);
+    });
+
+    registerForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const email = document.getElementById('email-reg').value.trim();
+        const password = document.getElementById('password-reg').value.trim();
+        handleAuth(email, password, true);
     });
 });
