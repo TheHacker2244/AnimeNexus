@@ -195,6 +195,12 @@ h3 { font-size: 1.4rem; }
 .hero-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 5; width: 44px; height: 44px; border-radius: 50%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.2); color: var(--white); font-size: 16px; display: flex; align-items: center; justify-content: center; transition: 0.3s ease; }
 .hero-arrow:hover { background: var(--brand-red); border-color: var(--brand-red); }
 .hero-arrow--prev { left: 16px; } .hero-arrow--next { right: 16px; }
+.hero-content h1 { 
+    margin-bottom: 12px; 
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5); 
+    color: #ffffff; /* <--- AGREGA ESTA LÍNEA PARA QUE SEA BLANCO SIEMPRE */
+}
+
 
 /* =============================================
    CATALOG

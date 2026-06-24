@@ -15,7 +15,7 @@ const auth = firebase.auth();
 const db = firebase.firestore();
 
 // =============================================
-// BASE DE DATOS DE PRODUCTOS (Igual que antes)
+// BASE DE DATOS DE PRODUCTOS
 // =============================================
 const productos = [
     { id: 1, nombre: "Figura Miku Sirena", categoria: "figuras", subcategoria: "anime", precio: 35.00, img: "img/animenexusfigura1.webp" },
@@ -43,24 +43,45 @@ const productos = [
     { id: 23, nombre: "Thousand Sunny Blocks", categoria: "juguetes", precio: 80.00, img: "img/animenexuslego.webp" }
 ];
 
+// Elementos DOM Globales
 const grid = document.getElementById('grid-productos');
 const buscarInput = document.getElementById('buscador');
 let categoriaActiva = 'todo';
 let subcategoriaActiva = null;
 
+// =============================================
+// INICIALIZACIÓN
+// =============================================
 window.onload = function() {
-    mostrarProductos(productos);
-    document.getElementById('searchToggle').addEventListener('click', function() {
-        document.getElementById('headerSearch').classList.toggle('open');
-    });
-    document.getElementById('hamburger').addEventListener('click', function() {
-        document.getElementById('mobileNav').classList.toggle('open');
-        document.getElementById('mobileOverlay').classList.toggle('open');
-        this.classList.toggle('open');
-    });
+    // 1. Solo cargar productos si la grilla existe (Ej: en index.html, no en carrito.html)
+    if (grid) {
+        mostrarProductos(productos);
+    }
+
+    // 2. Evento del botón de búsqueda (solo si existe en el HTML)
+    const searchToggle = document.getElementById('searchToggle');
+    if (searchToggle) {
+        searchToggle.addEventListener('click', function() {
+            document.getElementById('headerSearch').classList.toggle('open');
+        });
+    }
+
+    // 3. Evento del menú hamburguesa (solo si existe en el HTML)
+    const hamburger = document.getElementById('hamburger');
+    if (hamburger) {
+        hamburger.addEventListener('click', function() {
+            document.getElementById('mobileNav').classList.toggle('open');
+            document.getElementById('mobileOverlay').classList.toggle('open');
+            this.classList.toggle('open');
+        });
+    }
 };
 
+// =============================================
+// FUNCIONES DE PRODUCTOS (Con SALVAGUARDA anti-error)
+// =============================================
 function mostrarProductos(lista) {
+    if (!grid) return; // Si no hay grid, detente para no generar errores
     grid.innerHTML = '';
     lista.forEach(prod => {
         grid.innerHTML += `
@@ -79,6 +100,7 @@ function mostrarProductos(lista) {
 }
 
 function buscarProducto() {
+    if (!grid) return;
     const termino = buscarInput.value.toLowerCase();
     let filtrados = productos.filter(p => p.nombre.toLowerCase().includes(termino));
     if (categoriaActiva !== 'todo') {
@@ -89,6 +111,7 @@ function buscarProducto() {
 }
 
 function filtrarPor(categoria, subcategoria) {
+    if (!grid) return; // SALVAGUARDA: Protege el carrito.html de crasheos
     categoriaActiva = categoria;
     subcategoriaActiva = subcategoria || null;
     let filtrados = productos;
@@ -100,11 +123,10 @@ function filtrarPor(categoria, subcategoria) {
 }
 
 // =============================================
-// AGREGAR AL CARRITO (MODO INVITADO + MODO USUARIO)
+// AGREGAR AL CARRITO
 // =============================================
 async function agregarAlCarrito(id, nombre, precio, img, btnElement) {
     const user = auth.currentUser;
-    
     if (btnElement) {
         btnElement.innerText = '⏳ Agregando...';
         btnElement.style.pointerEvents = 'none';

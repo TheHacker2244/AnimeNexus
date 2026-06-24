@@ -77,7 +77,7 @@
 
             <!-- ACTIONS -->
             <div class="header-actions">
-                <!-- BÚSQUEDA AGREGADA DE VUELTA -->
+                <!-- BÚSQUEDA -->
                 <div class="search-toggle" id="searchToggle">
                     <i class="fas fa-search"></i>
                 </div>
@@ -117,7 +117,7 @@
         </div>
     </header>
 
-    <!-- MOBILE NAV -->
+    <!-- MOBILE NAV (El menú que sale en el celular) -->
     <div class="mobile-nav" id="mobileNav">
         <ul>
             <li><a href="#inicio" onclick="closeMobile()">Inicio</a></li>
@@ -126,13 +126,23 @@
             <li><a href="javascript:void(0)" onclick="filtrarPor('juguetes'); closeMobile()">Juguetes</a></li>
             <li><a href="#contacto" onclick="closeMobile()">Contacto</a></li>
             <li><a href="#nosotros" onclick="closeMobile()">Nosotros</a></li>
+            <!-- AGREGADO: Opción para acceder a la cuenta en el móvil -->
+            <li><a href="login.html" onclick="closeMobile()">Mi Cuenta</a></li>
         </ul>
     </div>
     <div class="mobile-overlay" id="mobileOverlay" onclick="closeMobile()"></div>
 
-    <!-- HERO / CARRUSEL -->
+    <!-- HERO / CARRUSEL (SECCIÓN TOTALMENTE COMENTADA PARA FUTURAS EDICIONES) -->
     <section id="inicio" class="hero">
         <div class="hero-slider" id="heroSlider">
+            
+            <!-- ========================================================== -->
+            <!-- SLIDE 1: NUEVA COLECCIÓN                                      -->
+            <!-- 1. src="img/animenexusbaner1.png" -> CAMBIAR LA IMAGEN AQUÍ -->
+            <!-- 2. h1 "Figuras de Colección" -> CAMBIAR TÍTULO AQUÍ          -->
+            <!-- 3. p "Las figuras más..." -> CAMBIAR SUBTÍTULO AQUÍ          -->
+            <!-- 4. href="#catalogo" -> CAMBIAR EL DESTINO DEL BOTÓN AQUÍ     -->
+            <!-- ========================================================== -->
             <div class="hero-slide active">
                 <img src="img/animenexusbaner1.png" alt="Anime Nexus Banner 1">
                 <div class="hero-overlay">
@@ -147,6 +157,12 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ========================================================== -->
+            <!-- SLIDE 2: MERCH & ACCESORIOS                                   -->
+            <!-- 1. src="img/animenexusbaner2.png" -> CAMBIAR LA IMAGEN AQUÍ -->
+            <!-- 2. h1 "Merch & Accesorios" -> CAMBIAR TÍTULO AQUÍ             -->
+            <!-- ========================================================== -->
             <div class="hero-slide">
                 <img src="img/animenexusbaner2.png" alt="Anime Nexus Banner 2">
                 <div class="hero-overlay">
@@ -160,13 +176,19 @@
                     </div>
                 </div>
             </div>
+
+            <!-- ========================================================== -->
+            <!-- SLIDE 3: MÉTODOS DE PAGO                                      -->
+            <!-- 1. src="img/animenexuspago.jpg" -> CAMBIAR LA IMAGEN AQUÍ   -->
+            <!-- 2. h1 "Múltiples Métodos..." -> CAMBIAR TÍTULO AQUÍ          -->
+            <!-- ========================================================== -->
             <div class="hero-slide">
-                <img src="img/animenexuspago.jpg" alt="Métodos de Pago">
+                <img src="img/anumenexusnosotros.webp" alt="Estamos Ubicados">
                 <div class="hero-overlay">
                     <div class="hero-content">
-                        <p class="hero-eyebrow">Pago Fácil</p>
-                        <h1>Múltiples <em>Métodos</em><br>de Pago</h1>
-                        <p class="hero-sub">Paga como prefieras. Proceso rápido y seguro.</p>
+                        <p class="hero-eyebrow">Encuentranos</p>
+                        <h1>EStamos<em>Frente al redondel</em><br>Torogoz</h1>
+                        <p class="hero-sub">San Salvador</p>
                         <div class="hero-btns">
                             <a href="#contacto" class="btn-primary">Contáctanos</a>
                         </div>
@@ -174,6 +196,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Indicadores -->
         <div class="hero-dots" id="heroDots">
             <span class="dot active" onclick="goToSlide(0)"></span>
@@ -215,7 +238,7 @@
             <div class="contact-map">
                 <h3><i class="fas fa-map-marker-alt"></i> Nuestra Tienda</h3>
                 <p>Calle San Antonio Abad y 39 Av. Norte, Frente a Redondel Torogoz, San Salvador.</p>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3876.1199!2d-89.2087!3d13.6929!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f6327a6c2c1c8e7%3A0x8e3a0c0f2d1c7!2sRedondel%20El%20Torogoz%2C%20San%20Salvador!5e0!3m2!1ses!2ssv!4v1718900000000!5m2!1ses!2ssv" allowfullscreen="" loading="lazy"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3507.6344325924547!2d-89.21112156193482!3d13.714681299971671!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8f633144994656e9%3A0x27f27765f8c77358!2sAnime%20Nexus%20SV!5e1!3m2!1ses!2ssv!4v1782320609371!5m2!1ses!2ssv" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
             <div class="contact-info" id="nosotros">
                 <h3><i class="fas fa-store"></i> Sobre Anime Nexus</h3>
@@ -246,7 +269,7 @@
                 <div class="social-row">
                     <a href="https://www.instagram.com/anime.nexus.sv" class="ig" target="_blank"><i class="fab fa-instagram"></i></a>
                     <a href="https://www.tiktok.com/@anime.nexus.sv" class="tiktok" target="_blank"><i class="fab fa-tiktok"></i></a>
-                    <a href="https://www.facebook.com/animenexus.sv" class="fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="fb" target="_blank"><i class="fab fa-facebook-f"></i></a>
                     <a href="https://wa.me/50364437283" class="wa" target="_blank"><i class="fab fa-whatsapp"></i></a>
                 </div>
             </div>
@@ -292,7 +315,7 @@
 
     
     <!-- ============================================= -->
-    <!-- AGREGA ESTOS SCRIPTS DE FIREBASE AQUÍ ABAJO    -->
+    <!-- SCRIPTS DE FIREBASE Y PRINCIPALES              -->
     <!-- ============================================= -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
